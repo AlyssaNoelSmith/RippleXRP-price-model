@@ -1,0 +1,24 @@
+---
+title: "xrpdataexploration"
+author: "Alyssa Smith"
+date: "4/8/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tseries)
+```
+
+
+
+```{r}
+#Dickey Fuller Stationarity test with lag order = 2
+adf.test(data$Open_xrp,k=2)
+```
+
+
+```{r}
+
+```
+
+
