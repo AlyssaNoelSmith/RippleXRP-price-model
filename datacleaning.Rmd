@@ -71,6 +71,12 @@ dowJones=dfList2[[2]]
 
 #Merge dataframes into one dataset
 data <- list(xrp,btc,dowJones,nasdaq,nyse,sAndP,goldFutures,silverFutures,oilFutures) %>% reduce(full_join, by = "Date")
+
+#Handle null and 0 values due to weekend market schedules by taking previous valid value
+data[data == 0] <- NA
+data[data == "null"] <- NA
+data <- data %>% fill(names(data), .direction = c("down"))
+
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
