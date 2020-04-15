@@ -21,7 +21,7 @@ adf.test(data$Open_xrp,k=2)
 
 ```{r}
 #Feature selection
-boruta_output <- Boruta(High_xrp ~ ., data=na.omit(data), doTrace=2)
+boruta_output <- Boruta(High_xrp ~ ., data=na.omit(data))
 ```
 
 
