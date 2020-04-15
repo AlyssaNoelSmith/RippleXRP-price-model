@@ -31,16 +31,6 @@ oilFutures <- read.csv("CL=F ( crude oil futures).csv")%>% rename(Open_oil = Ope
 goldFutures <- read.csv("GC=F.csv")%>% rename(Open_gold = Open, High_gold = High, Low_gold = Low, Close_gold = Close, Adj.Close_gold = Adj.Close, Volume_gold = Volume)
 silverFutures <- read.csv("SI=F.csv")%>% rename(Open_silver = Open, High_silver = High, Low_silver = Low, Close_silver = Close, Adj.Close_silver = Adj.Close, Volume_silver = Volume)
 
-xrp
-btc
-dowJones
-sAndP
-nasdaq
-nyse
-oilFutures
-goldFutures
-silverFutures
-
 ```
 
 

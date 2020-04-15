@@ -7,6 +7,8 @@ output: html_document
 
 ```{r setup, include=FALSE}
 library(tseries)
+library(Boruta)
+
 ```
 
 
@@ -18,7 +20,14 @@ adf.test(data$Open_xrp,k=2)
 
 
 ```{r}
-
+#Feature selection
+boruta_output <- Boruta(High_xrp ~ ., data=na.omit(data), doTrace=2)
 ```
 
+
+```{r}
+# collect Confirmed and Tentative variables
+boruta_signif <- names(boruta_output$finalDecision[boruta_output$finalDecision %in% c("Confirmed", "Tentative")]) 
+plot(boruta_output, cex.axis=.7, las=2, xlab="", main="Variable Importance")  # plot variable importance
+```
 
