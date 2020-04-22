@@ -14,13 +14,13 @@ library(Boruta)
 
 
 ```{r}
-#Dickey Fuller Stationarity test with lag order = 2
-adf.test(data$Open_xrp,k=2)
+#Augmented Dickey Fuller Stationarity test for High_XRP
+adf.test(data$High_xrp)
 ```
 
 
 ```{r}
-#Feature selection
+#Perform boruta test for feature selection (wrapper around random forest)
 boruta_output <- Boruta(High_xrp ~ ., data=na.omit(data))
 ```
 
@@ -29,5 +29,18 @@ boruta_output <- Boruta(High_xrp ~ ., data=na.omit(data))
 # collect Confirmed and Tentative variables
 boruta_signif <- names(boruta_output$finalDecision[boruta_output$finalDecision %in% c("Confirmed", "Tentative")]) 
 plot(boruta_output, cex.axis=.7, las=2, xlab="", main="Variable Importance")  # plot variable importance
+```
+
+```{r}
+#Augmented Dickey Fuller Stationarity testing for highly important predictor variables
+adf.test(data$High_btc) #Lag order = 12,p-value = 0.2474
+adf.test(data$Low_btc) #Lag order = 12, p-value = 0.3705
+adf.test(data$High_nasdaq) #Lag order = 12, p-value = 0.0293
+adf.test(data$Adj.Close_oil) #Lag order = 12, p-value = 0.624
+adf.test(data$Low_oil) #Lag order = 12, p-value = 0.5218
+adf.test(data$Open_silver) #Lag order = 12, p-value = 0.243
+adf.test(data$Low_silver) #Lag order = 12, p-value = 0.2672
+adf.test(data$Low_dow) #Lag order = 12, p-value = 0.2672
+adf.test(data$High_sandp) #Lag order = 12, p-value = 0.03354
 ```
 
