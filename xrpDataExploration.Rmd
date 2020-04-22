@@ -91,3 +91,12 @@ adf.test(Low_dow_diff) #Lag order = 12, p-value = 0.01
 #All tested variables successfully passed the ADF stationarity test after lag-1 differencing.
 ```
 
+```{r}
+#Create dataframes for Granger Causality Test to determine importance in predicting High_XRP (using the stationary features above)
+#Will need 7 dataframes -> (High_XRP, High_btc_diff), (High_XRP, Low_btc_diff), etc.
+
+#Needed to remove first column of High_xrp because of how the differencing works: the count of the differenced data was one less than the original column
+highBTC = data.frame(data$High_xrp[-1], High_btc_diff)
+highBTC
+```
+
