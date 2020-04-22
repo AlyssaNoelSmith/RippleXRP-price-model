@@ -32,7 +32,7 @@ plot(boruta_output, cex.axis=.7, las=2, xlab="", main="Variable Importance")  # 
 ```
 
 ```{r}
-#Augmented Dickey Fuller Stationarity testing for highly important predictor variables
+#Augmented Dickey Fuller Stationarity testing for various highly important predictor variables
 adf.test(data$High_btc) #Lag order = 12,p-value = 0.2474
 adf.test(data$Low_btc) #Lag order = 12, p-value = 0.3705
 adf.test(data$High_nasdaq) #Lag order = 12, p-value = 0.0293
@@ -49,5 +49,45 @@ adf.test(data$High_btc, k=2) #Lag order = 2, p-value = 0.4582
 adf.test(data$High_btc, k=5) #Lag order = 5, p-value = 0.3979
 adf.test(data$High_btc, k=20) #Lag order = 20, p-value = 0.183
 adf.test(data$High_btc, k=40) #Lag order = 40, p-value = 0.3487
+```
+```{r}
+#Differencing non-stationary variables from above
+
+plot.ts(data$High_btc)
+High_btc_diff <- diff(data$High_btc, differences=1)
+plot.ts(High_btc_diff)
+adf.test(High_btc_diff) #Lag order = 12, p-value = 0.01
+
+
+Low_btc_diff <- diff(data$Low_btc, differences=1)
+plot.ts(Low_btc_diff)
+adf.test(Low_btc_diff) #Lag order = 12, p-value = 0.01
+
+
+Adj.Close_oil_diff <- diff(data$Adj.Close_oil, differences=1)
+plot.ts(Adj.Close_oil_diff)
+adf.test(Adj.Close_oil_diff) #Lag order = 12, p-value = 0.01
+
+
+Low_oil_diff <- diff(data$Low_oil, differences=1)
+plot.ts(Low_oil_diff)
+adf.test(Low_oil_diff) #Lag order = 12, p-value = 0.01
+
+
+Open_silver_diff <- diff(data$Open_silver, differences=1)
+plot.ts(Open_silver_diff)
+adf.test(Open_silver_diff) #Lag order = 12, p-value = 0.01
+
+
+Low_silver_diff <- diff(data$Low_silver, differences=1)
+plot.ts(Low_silver_diff)
+adf.test(Low_silver_diff) #Lag order = 12, p-value = 0.01
+
+
+Low_dow_diff <- diff(data$Low_dow, differences=1)
+plot.ts(Low_dow_diff)
+adf.test(Low_dow_diff) #Lag order = 12, p-value = 0.01
+
+#All tested variables successfully passed the ADF stationarity test after lag-1 differencing.
 ```
 
