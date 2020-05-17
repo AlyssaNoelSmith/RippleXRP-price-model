@@ -58,6 +58,9 @@ dfList2 <- lapply(dfList2, function(x) {
 xrp=dfList2[[1]]
 dowJones=dfList2[[2]]
 
+goldFutures <- mutate_if(goldFutures, is.factor, ~ as.numeric(levels(.x))[.x])
+silverFutures <- mutate_if(silverFutures, is.factor, ~ as.numeric(levels(.x))[.x])
+oilFutures <- mutate_if(oilFutures, is.factor, ~ as.numeric(levels(.x))[.x])
 
 #Merge dataframes into one dataset
 data <- list(xrp,btc,dowJones,nasdaq,nyse,sAndP,goldFutures,silverFutures,oilFutures) %>% reduce(full_join, by = "Date")
