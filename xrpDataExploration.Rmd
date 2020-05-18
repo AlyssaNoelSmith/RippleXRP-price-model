@@ -10,6 +10,7 @@ library(tseries)
 library(Boruta)
 library(zoo)
 library(vars)
+library(quadrupen)
 ```
 
 
@@ -146,5 +147,11 @@ openNASDAQ = data.frame(data$High_xrp, data$Open_nasdaq)
 grangertest(openNASDAQ[[1]] ~ openNASDAQ[[2]], order = 3, data = openNASDAQ)  #p-value: 0.5928
 
 #Only the first 3 values showed a probable causality relationship: high BTC price, Adj.Close BTC, and low BTC.
+```
+
+```{r}
+#Feature Selection - ElasticNet (using features chosen from causality testing)
+bitcoinMetrics = cbind(High_btc_diff,Adj.Close_btc_diff,Low_btc_diff)
+elastic.net(bitcoinMetrics,data$High_xrp[-1])
 ```
 
