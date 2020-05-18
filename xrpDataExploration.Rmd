@@ -11,6 +11,8 @@ library(Boruta)
 library(zoo)
 library(vars)
 library(quadrupen)
+library(forecast)
+library(MLmetrics)
 ```
 
 
@@ -153,5 +155,32 @@ grangertest(openNASDAQ[[1]] ~ openNASDAQ[[2]], order = 3, data = openNASDAQ)  #p
 #Feature Selection - ElasticNet (using features chosen from causality testing)
 bitcoinMetrics = cbind(High_btc_diff,Adj.Close_btc_diff,Low_btc_diff)
 elastic.net(bitcoinMetrics,data$High_xrp[-1])
+bitcoinMetrics
+```
+
+```{r}
+Acf(data$High_xrp)
+Pacf(data$High_xrp)
+
+#It is an AR process since ACF has no cut-off value. Since PACF cuts off at lag 1, use AR 1 for the ARIMAX model.
+```
+```{r}
+#Multivariate time series forecasting using ARIMAX model (ARIMA with exogenous variables)
+y=data$High_xrp[-1]
+y=head(y,-7)
+x=bitcoinMetrics
+x=head(x,n=-7)
+#p (AR order), d (differencing order: it is already stationary in this case) and c(MA order) = (1,0,0)
+fit = arima(y,order=c(1,0,0),xreg=x)
+
+y_pred = predict(fit,newxreg=tail(bitcoinMetrics,n=7))
+print("------------------------------")
+y_pred
+print("------------------------------")
+print(tail(data$High_xrp,n=7))
+print("------------------------------")
+#root mean square error
+#sqrt(mean((y_pred - #tail(data$High_xrp,n=7))^2, na.rm=TRUE))
+#Clearly the prediction using this model is not very accurate.  This is what was expected, considering the volatility of XRP prices and the fact that it is sensitive to pumps and dumps.
 ```
 
