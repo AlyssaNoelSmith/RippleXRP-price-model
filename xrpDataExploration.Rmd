@@ -104,38 +104,47 @@ adf.test(Open_dow_diff)
 #All tested variables successfully passed the ADF stationarity test after lag-1 differencing.
 ```
 
+
 ```{r}
+
 #Create dataframes for Granger Causality Test to determine importance in predicting High_XRP (using the stationary features above)
-#Will need 7 dataframes -> (High_XRP, High_btc_diff), (High_XRP, Low_btc_diff), etc.
 #Needed to remove first column of High_xrp because of how the differencing works: the count of the differenced data was one less than the original column
 highBTC = data.frame(data$High_xrp[-1], High_btc_diff)
 grangertest(highBTC[[1]] ~ highBTC[[2]], order = 3, data = highBTC)  #p-value: 0.00082
 
+adjCloseBTC = data.frame(data$High_xrp[-1], Adj.Close_btc_diff)
+grangertest(adjCloseBTC[[1]] ~ adjCloseBTC[[2]], order = 3, data = adjCloseBTC)  #p-value: < 2.2e-16
+
 lowBTC = data.frame(data$High_xrp[-1], Low_btc_diff)
 grangertest(lowBTC[[1]] ~ lowBTC[[2]], order = 3, data = lowBTC)   #p-value: < 2.2e-16
 
+highOil = data.frame(data$High_xrp[-1], High_oil_diff)
+grangertest(highOil[[1]] ~ highOil[[2]], order = 3, data = highOil)  #p-value: 0.9494
+
 highNASDAQ = data.frame(data$High_xrp, data$High_nasdaq)
-grangertest(highNASDAQ[[1]] ~ highNASDAQ[[2]], order = 3, data = highNASDAQ)  #p-value:0.6872 
+grangertest(highNASDAQ[[1]] ~ highNASDAQ[[2]], order = 3, data = highNASDAQ)  #p-value: 0.6872
 
-adjCloseOil = data.frame(data$High_xrp[-1], Adj.Close_oil_diff)
-grangertest(adjCloseOil[[1]] ~ adjCloseOil[[2]], order = 3, data = adjCloseOil)#p-value: 
+CloseOil = data.frame(data$High_xrp[-1], Close_oil_diff)
+grangertest(CloseOil[[1]] ~ CloseOil[[2]], order = 3, data = CloseOil)#p-value: 0.7832
 
-lowOil = data.frame(data$High_xrp[-1], Low_oil_diff)
-grangertest(lowOil[[1]] ~ lowOil[[2]], order = 3, data = lowOil)  #p-value: 
+CloseSilver = data.frame(data$High_xrp[-1], Close_silver_diff)
+grangertest(CloseSilver[[1]] ~ CloseSilver[[2]], order = 3, data = CloseSilver)#p-value: 0.3482
 
-openSilver = data.frame(data$High_xrp[-1], Open_silver_diff)
-grangertest(openSilver[[1]] ~ openSilver[[2]], order = 3, data = openSilver)#p-value: 
+highSilver = data.frame(data$High_xrp[-1], High_silver_diff)
+grangertest(highSilver[[1]] ~ highSilver[[2]], order = 3, data = highSilver)#p-value: 0.5557
 
 lowSilver = data.frame(data$High_xrp[-1], Low_silver_diff)
-Low_silver_diff
-lowSilver
-grangertest(lowSilver[[1]] ~ lowSilver[[2]], order = 3, data = lowSilver)#p-value: 
+grangertest(lowSilver[[1]] ~ lowSilver[[2]], order = 3, data = lowSilver)#p-value: 0.371
 
-lowDow = data.frame(data$High_xrp[-1], Low_dow_diff)
-grangertest(lowDow[[1]] ~ lowDow[[2]], order = 3, data = lowDow)#p-value: 0.3733
+adjCloseDow = data.frame(data$High_xrp[-1], Adj.Close_dow_diff)
+grangertest(adjCloseDow[[1]] ~ adjCloseDow[[2]], order = 3, data = adjCloseDow)#p-value: 0.4515
 
-highSAndP = data.frame(data$High_xrp, data$High_sandp)
-grangertest(highSAndP[[1]] ~ highSAndP[[2]], order = 3, data = highSAndP)#p-value: 0.6765
+openDow = data.frame(data$High_xrp[-1], Open_dow_diff)
+grangertest(openDow[[1]] ~ openDow[[2]], order = 3, data = openDow)#p-value: 0.2341
 
+openNASDAQ = data.frame(data$High_xrp, data$Open_nasdaq)
+grangertest(openNASDAQ[[1]] ~ openNASDAQ[[2]], order = 3, data = openNASDAQ)  #p-value: 0.5928
+
+#Only the first 3 values showed a probable causality relationship: high BTC price, Adj.Close BTC, and low BTC.
 ```
 
